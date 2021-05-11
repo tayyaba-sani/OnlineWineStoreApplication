@@ -18,8 +18,7 @@ public class OrderProcessController {
     OrderProcessService orderProcessService;
 
     @PostMapping("/submitOrder/{email}")
-    public ResponseHandler<String> submitOrder(@PathVariable("email") String email)
-    {
+    public ResponseHandler<String> submitOrder(@PathVariable("email") String email) {
         return ResponseDTO.responseSuccessful(orderProcessService.processOrder(email));
     }
 }

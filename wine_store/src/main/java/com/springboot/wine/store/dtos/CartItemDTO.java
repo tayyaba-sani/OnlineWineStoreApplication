@@ -1,7 +1,5 @@
 package com.springboot.wine.store.dtos;
 
-import com.springboot.wine.store.entities.Wine;
-
 public class CartItemDTO {
 
     private Long wineId;

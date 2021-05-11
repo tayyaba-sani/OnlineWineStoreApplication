@@ -4,10 +4,14 @@ package com.springboot.wine.store.services.implementations;
 import com.springboot.wine.store.common.Utils.CommonUtils;
 import com.springboot.wine.store.common.Utils.Constants;
 import com.springboot.wine.store.common.exceptions.BusinessCaseException;
+import com.springboot.wine.store.dtos.CartItemDTO;
+import com.springboot.wine.store.dtos.WineDTO;
 import com.springboot.wine.store.entities.CartItem;
 import com.springboot.wine.store.entities.Customer;
 import com.springboot.wine.store.entities.Wine;
 import com.springboot.wine.store.entities.WineItem;
+import com.springboot.wine.store.mappers.CartItemMapper;
+import com.springboot.wine.store.mappers.WineMapper;
 import com.springboot.wine.store.repositories.CartItemRepository;
 import com.springboot.wine.store.repositories.CustomerRepository;
 import com.springboot.wine.store.repositories.WineItemRepository;
@@ -17,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -78,15 +83,27 @@ public class ShoppingCartItemImpl implements ShoppingCartItemService {
         wineItemRepository.deleteById(cartItem.getWineItem().getId());
         cartItemRepository.delete(cartItem);
     }
-    public List<CartItem> getAllCartItemList()
+    public List<CartItemDTO> getAllCartItemList()
     {
-        return cartItemRepository.findAll();
+        List<CartItem> cartItemList = cartItemRepository.findAll();
+        return convertCartItemIntoCartItemDTOList(cartItemList);
     }
-    public List<CartItem> getCustomerCartItemList(String email)
+    public List<CartItemDTO> getCustomerCartItemList(String email)
     {
         Customer customer = new Customer();
         customer = customerRepository.findCustomerByEmail(email);
-        return cartItemRepository.findByCustomer(customer.getId());
+        List<CartItem> cartItemList = cartItemRepository.findByCustomer(customer.getId());
+        return convertCartItemIntoCartItemDTOList(cartItemList);
+    }
+
+    private List<CartItemDTO> convertCartItemIntoCartItemDTOList(List<CartItem> cartItemList)
+    {
+        List<CartItemDTO> cartItemDTOList = new ArrayList<>();
+        for (CartItem cartItem : cartItemList) {
+            CartItemDTO cartItemDTO = CartItemMapper.INSTANCE.CartItemToDto(cartItem);
+            cartItemDTOList.add(cartItemDTO);
+        }
+        return cartItemDTOList;
     }
 
 }
