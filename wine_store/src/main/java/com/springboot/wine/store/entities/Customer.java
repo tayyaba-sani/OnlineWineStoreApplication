@@ -8,12 +8,6 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@NamedQueries(value =
-        {
-                @NamedQuery(name = "Customer.findCustomerByEmail", query = "select c from Customer c where c.email = ?1")
-        }
-)
-
 public class Customer extends BaseEntity implements Serializable {
 
     @Id

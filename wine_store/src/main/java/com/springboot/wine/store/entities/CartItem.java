@@ -5,15 +5,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 
 @Entity
-@NamedQueries(value =
-        {
-                @NamedQuery(name = "CartItem.findByCustomer", query = "select c from CartItem c where c.customer.id = ?1")
-        }
-)
-
 public class CartItem extends BaseEntity implements Serializable {
 
     @Id

@@ -1,11 +1,11 @@
 package com.springboot.wine.store.entities.listener;
 
-import com.springboot.wine.store.common.Utils.CommonUtils;
 import com.springboot.wine.store.entities.BaseEntity;
 
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import java.util.Date;
+import java.util.Objects;
 
 public class BaseEntityListener {
 
@@ -16,7 +16,7 @@ public class BaseEntityListener {
         if (object instanceof BaseEntity) {
 
             BaseEntity entity = (BaseEntity) object;
-            if(CommonUtils.isNullOrEmpty(entity.getCreateDatetime()))
+            if(Objects.isNull(entity.getCreateDatetime()))
                 entity.setCreateDatetime(new Date());
             entity.setModifiedDatetime(new Date());
 

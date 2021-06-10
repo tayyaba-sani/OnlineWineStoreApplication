@@ -12,8 +12,12 @@ import org.springframework.mail.javamail.JavaMailSender;
 @Service
 public class JavaMailServiceImpl implements JavaMailService {
 
-    @Autowired
     private JavaMailSender mailSender;
+
+    public JavaMailServiceImpl(JavaMailSender mailSender)
+    {
+        this.mailSender = mailSender;
+    }
 
     public void sendEmail(String email)
     {

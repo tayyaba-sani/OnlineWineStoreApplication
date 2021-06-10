@@ -8,17 +8,17 @@ import java.util.List;
 
 public interface WineService {
 
-    WineDTO addWine(Wine wine);
+    Wine addWine(Wine wine);
 
     void removeWine(Wine wine);
 
-    List<WineDTO> getWineFindAll();
+    List<Wine> getWineFindAll();
 
-    List<WineDTO> getWineFindByYear(int year);
+    List<Wine> getWineFindByYear(int year);
 
-    List<WineDTO> getWineFindByCountry(String country);
+    List<Wine> getWineFindByCountry(String country);
 
-    List<WineDTO> getWineFindByVarietal(String varietal);
+    List<Wine> getWineFindByVarietal(String varietal);
 
-    WineDTO findWineById(Long id);
+    Wine findWineById(Long id);
 }

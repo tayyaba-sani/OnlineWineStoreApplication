@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CartItemRepository extends JpaRepository<CartItem,Long> {
+public interface CartItemRepository extends JpaRepository<CartItem, Long> {
 
-
-    public List<CartItem> findByCustomer(Long customerId);
+    @Query("select c from CartItem c where c.customer.id = ?1")
+    List<CartItem> findByCustomer(Long customerId);
 }

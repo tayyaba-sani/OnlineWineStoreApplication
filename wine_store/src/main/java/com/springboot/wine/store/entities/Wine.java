@@ -7,13 +7,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@NamedQueries(value =
-        {
-                @NamedQuery(name = "Wine.findByYear", query = "select w from Wine w where w.year = ?1"),
-                @NamedQuery(name = "Wine.findByCountry", query = "select w from Wine w where lower(w.country) = ?1"),
-                @NamedQuery(name = "Wine.findByVarietal", query = "select w from Wine w where lower(w.varietal) = ?1")
-        }
-)
 public class Wine extends BaseEntity implements Serializable {
 
     @Id

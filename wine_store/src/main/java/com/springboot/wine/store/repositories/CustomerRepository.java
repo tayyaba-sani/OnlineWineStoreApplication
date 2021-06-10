@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CustomerRepository extends JpaRepository<Customer,Long> {
+public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
-
-    public Customer findCustomerByEmail(String email);
+    @Query("select c from Customer c where c.email = ?1")
+    Customer findCustomerByEmail(String email);
 }

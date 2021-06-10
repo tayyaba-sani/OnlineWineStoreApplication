@@ -17,13 +17,6 @@ import java.util.Date;
 public class ExceptionResponseHandler {
     Logger logger = LoggerFactory.getLogger(ExceptionResponseHandler.class);
 
-    @ExceptionHandler(value = ResourceNotFoundException.class)
-    public ResponseEntity<ExceptionDTO> HandleResponseNotFound(ResourceNotFoundException resourceNotFoundException,
-                                                               WebRequest webRequest)
-    {
-            ExceptionDTO exceptionDTO = new ExceptionDTO(new Date(),resourceNotFoundException.getMessage(),webRequest.getDescription(false));
-            return new ResponseEntity<ExceptionDTO>(exceptionDTO, HttpStatus.NOT_FOUND);
-    }
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ExceptionDTO> HandleException(Exception ex,
                                                                WebRequest webRequest)

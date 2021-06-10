@@ -2,16 +2,27 @@ package com.springboot.wine.store.dtos;
 
 public class CartItemDTO {
 
-    private Long wineId;
+    private long CartItemId;
+    private long wineItemId;
     private int quantity;
-    private String email;
+    private long customerId;
+    private long wineId;
 
-    public Long getWineId() {
-        return wineId;
+
+    public long getCartItemId() {
+        return CartItemId;
     }
 
-    public void setWineId(Long wineId) {
-        this.wineId = wineId;
+    public void setCartItemId(long cartItemId) {
+        CartItemId = cartItemId;
+    }
+
+    public long getWineItemId() {
+        return wineItemId;
+    }
+
+    public void setWineItemId(long wineItemId) {
+        this.wineItemId = wineItemId;
     }
 
     public int getQuantity() {
@@ -22,11 +33,19 @@ public class CartItemDTO {
         this.quantity = quantity;
     }
 
-    public String getEmail() {
-        return email;
+    public long getCustomerId() {
+        return customerId;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setCustomerId(long customerId) {
+        this.customerId = customerId;
+    }
+
+    public long getWineId() {
+        return wineId;
+    }
+
+    public void setWineId(long wineId) {
+        this.wineId = wineId;
     }
 }

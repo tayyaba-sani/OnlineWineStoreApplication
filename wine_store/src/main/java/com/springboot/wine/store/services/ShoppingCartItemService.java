@@ -9,8 +9,8 @@ import com.springboot.wine.store.entities.Wine;
 import java.util.List;
 
 public interface ShoppingCartItemService {
-    public void addWineItem(Long wineId, int quantity, String email);
+    public CartItem addWineItem(Long wineId, int quantity, long customerId);
     public void removeWineItem(CartItem cartItem);
     public List<CartItemDTO> getAllCartItemList();
-    public List<CartItemDTO> getCustomerCartItemList(String email);
+//    public List<CartItemDTO> getCustomerCartItemList(String email);
 }
