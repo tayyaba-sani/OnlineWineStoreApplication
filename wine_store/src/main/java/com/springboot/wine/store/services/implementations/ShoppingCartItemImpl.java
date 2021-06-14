@@ -43,7 +43,7 @@ public class ShoppingCartItemImpl implements ShoppingCartItemService {
     }
 
     @Transactional
-    public CartItem addWineItem(Long wineId, int quantity, long customerId) {
+    public CartItem  addWineItem(long wineId, int quantity, long customerId) {
 
         try {
             WineItem wineItem = new WineItem();
@@ -63,7 +63,7 @@ public class ShoppingCartItemImpl implements ShoppingCartItemService {
             return cartItemRepository.save(cartItem);
 
         } catch (NoSuchElementException noSuchElementException) {
-            throw new BusinessCaseException("Bad Request", this.getClass().toString());
+            return null;
         }
 
 
@@ -75,9 +75,9 @@ public class ShoppingCartItemImpl implements ShoppingCartItemService {
         cartItemRepository.deleteById(cartItem.getId());
     }
 
-    public List<CartItemDTO> getAllCartItemList() {
-        List<CartItem> cartItemList = cartItemRepository.findAll();
-        return CartItemMapper.INSTANCE.convertCartItemIntoCartItemDTOList(cartItemList);
+    public List<CartItem> getAllCartItemList() {
+        return cartItemRepository.findAll();
+//        return CartItemMapper.INSTANCE.convertCartItemIntoCartItemDTOList(cartItemList);
     }
 
 //    public List<CartItemDTO> getCustomerCartItemList(String email) {

@@ -25,15 +25,17 @@ public class WineController {
         this.wineService = wineService;
     }
 
+
     @PostMapping()
     public ResponseEntity<WineDTO> addWine(@RequestBody WineDTO wineDTO) {
 
-        if (Objects.isNull(wineDTO)) {
+        if (Objects.isNull(wineDTO.getName())) {
             throw new BusinessCaseException(Constants.WINE_DETAILS_NOT_COMPLETED, this.getClass().toString());
         } else {
             Wine wine = WineMapper.INSTANCE.dtoToWine(wineDTO);
-            WineDTO wineToDto = WineMapper.INSTANCE.WineToDto(wineService.addWine(wine));
-            if (Objects.isNull(wineDTO)) {
+            Wine newWine = wineService.addWine(wine);
+            WineDTO wineToDto = WineMapper.INSTANCE.WineToDto(newWine);
+            if (Objects.isNull(wineToDto)) {
                 return new ResponseEntity(HttpStatus.BAD_REQUEST);
             } else {
                 return new ResponseEntity(wineToDto, HttpStatus.OK);

@@ -95,13 +95,14 @@ public class CustomerImpl implements CustomerService {
             return null;
         }
     }
+
     @Transactional
     public String processOrder(long id) {
 
         try {
             Customer customer = customerRepository.findById(id).get();
             List<CartItem> cartItems = customer.getCartItemList();
-            if(cartItems.size() > 0 ) {
+            if (cartItems.size() > 0) {
                 CustomerOrder customerOrder = new CustomerOrder();
                 customerOrder.setCustomer(customer);
                 customerOrder.setCreationDate(new Date());
@@ -123,9 +124,8 @@ public class CustomerImpl implements CustomerService {
                 }
                 javaMailService.sendEmail(customer.getEmail());
                 return Constants.SUCCESS_ORDER_SUBMITTED;
-            }else
-            {
-                throw new BusinessCaseException("Given Customer id has no cart items",this.getClass().toString());
+            } else {
+                throw new BusinessCaseException("Given Customer id has no cart items", this.getClass().toString());
             }
         } catch (NoSuchElementException e) {
             return null;

@@ -29,7 +29,7 @@ public class CartItemController {
     @PostMapping()
     public ResponseEntity<CartItemDTO> addToCart(@RequestBody CartItemDTO cartItemDTO) {
 
-        if (Objects.isNull(cartItemDTO)) {
+        if (Objects.isNull(cartItemDTO) || cartItemDTO.getCustomerId() == 0 || cartItemDTO.getWineId() == 0) {
             throw new BusinessCaseException(Constants.CART_ITEM_DETAIL_NOT_COMPLETED, this.getClass().toString());
         } else {
             CartItemDTO dto = CartItemMapper.INSTANCE.CartItemToDto(shoppingCartItemService.addWineItem(cartItemDTO.getWineId(), cartItemDTO.getQuantity(), cartItemDTO.getCustomerId()));

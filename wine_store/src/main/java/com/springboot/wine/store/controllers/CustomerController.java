@@ -29,11 +29,12 @@ public class CustomerController {
     @PostMapping()
     public ResponseEntity<CustomerDTO> createCustomer(@RequestBody CustomerDTO customerDTO) {
 
-        if (Objects.isNull(customerDTO)) {
+        if (Objects.isNull(customerDTO.getEmail())) {
             throw new BusinessCaseException(Constants.CUSTOMER_DETAIL_NOT_COMPLETED, this.getClass().toString());
         } else {
             Customer customer = CustomerMapper.INSTANCE.dtoToCustomer(customerDTO);
-            CustomerDTO dto = CustomerMapper.INSTANCE.CustomerToDto(customerService.registerCustomer(customer));
+            Customer newCustomer = customerService.registerCustomer(customer);
+            CustomerDTO dto = CustomerMapper.INSTANCE.CustomerToDto(newCustomer);
             if (Objects.isNull(dto)) {
                 return new ResponseEntity(HttpStatus.BAD_REQUEST);
             } else {
@@ -75,7 +76,7 @@ public class CustomerController {
     }
 
     @GetMapping("{customer-id}/cart-items")
-    public ResponseEntity<List<CartItemDTO>> getCustomerByEmail(@PathVariable("customer-id") long id) {
+    public ResponseEntity<List<CartItemDTO>> getCartItems(@PathVariable("customer-id") long id) {
         List<CartItemDTO> cartItemList = CartItemMapper.INSTANCE.convertCartItemIntoCartItemDTOList(customerService.getCustomerCartItemList(id));
         if (cartItemList.isEmpty()) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
