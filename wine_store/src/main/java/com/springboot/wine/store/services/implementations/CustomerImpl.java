@@ -11,6 +11,8 @@ import com.springboot.wine.store.repositories.OrderItemRepository;
 import com.springboot.wine.store.services.CustomerService;
 import com.springboot.wine.store.services.JavaMailService;
 import com.springboot.wine.store.services.ShoppingCartItemService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -19,20 +21,14 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
-
 public class CustomerImpl implements CustomerService {
-
-
     private final CustomerRepository customerRepository;
     private final CartItemRepository cartItemRepository;
-
     private final CustomerOrderRepository customerOrderRepository;
-
     private final OrderItemRepository orderItemRepository;
-
     private final ShoppingCartItemService shoppingCartItemService;
-
     private final JavaMailService javaMailService;
+    Logger logger = LoggerFactory.getLogger(CustomerImpl.class);
 
     public CustomerImpl(CustomerRepository customerRepository, CustomerOrderRepository customerOrderRepository,
                         OrderItemRepository orderItemRepository, ShoppingCartItemService shoppingCartItemService,
@@ -48,47 +44,43 @@ public class CustomerImpl implements CustomerService {
     @Override
     @Transactional
     public Customer registerCustomer(Customer customer) {
-
+        logger.info("Service: CustomerImpl: registerCustomer");
         return customerRepository.save(customer);
-//        if (CommonUtils.isNullOrEmpty(customer))
-//            throw new BusinessCaseException(Constants.CUSTOMER_DETAIL_NOT_COMPLETED, this.getClass().toString());
-//        else {
-//            return CustomerMapper.INSTANCE.CustomerToDto(customerRepository.save(customer));
-//        }
 
     }
 
     @Override
     public Customer getCustomerFindByEmail(String email) {
+        logger.info("Service: CustomerImpl: getCustomerFindByEmail");
         return customerRepository.findCustomerByEmail(email);
-//        return CustomerMapper.INSTANCE.CustomerToDto(customerRepository.findCustomerByEmail(email));
     }
 
     @Override
     public Customer getCustomerFindById(Long id) {
         try {
+            logger.info("Service: CustomerImpl: getCustomerFindById");
             return customerRepository.findById(id).get();
         } catch (NoSuchElementException noSuchElementException) {
             return null;
         }
-//        return CustomerMapper.INSTANCE.CustomerToDto(customerRepository.findById(id).get());
     }
 
     @Override
     public List<Customer> getCustomerFindAll() {
-
+        logger.info("Service: CustomerImpl: getCustomerFindAll");
         return customerRepository.findAll();
-//        return convertListOfCustomerToCustomerDto(customerList);
     }
 
     @Override
     @Transactional
     public void removeCustomer(Long id) {
+        logger.info("Service: CustomerImpl: removeCustomer");
         customerRepository.deleteById(id);
     }
 
     public List<CartItem> getCustomerCartItemList(long id) {
         try {
+            logger.info("Service: CustomerImpl: getCustomerCartItemList");
             return cartItemRepository.findByCustomer(id);
 
         } catch (NoSuchElementException noSuchElementException) {
@@ -98,8 +90,9 @@ public class CustomerImpl implements CustomerService {
 
     @Transactional
     public String processOrder(long id) {
-
+        logger.info("Service: CustomerImpl: processOrder: Start");
         try {
+
             Customer customer = customerRepository.findById(id).get();
             List<CartItem> cartItems = customer.getCartItemList();
             if (cartItems.size() > 0) {
@@ -123,6 +116,7 @@ public class CustomerImpl implements CustomerService {
                     shoppingCartItemService.removeWineItem(cartItem);
                 }
                 javaMailService.sendEmail(customer.getEmail());
+                logger.info("Service: CustomerImpl: processOrder: End");
                 return Constants.SUCCESS_ORDER_SUBMITTED;
             } else {
                 throw new BusinessCaseException("Given Customer id has no cart items", this.getClass().toString());
@@ -131,13 +125,4 @@ public class CustomerImpl implements CustomerService {
             return null;
         }
     }
-
-//    private List<CustomerDTO> convertListOfCustomerToCustomerDto(List<Customer> customerList) {
-//        List<CustomerDTO> customerDTOList = new ArrayList<>();
-//        for (Customer customer : customerList) {
-//            CustomerDTO customerDTO = CustomerMapper.INSTANCE.CustomerToDto(customer);
-//            customerDTOList.add(customerDTO);
-//        }
-//        return customerDTOList;
-//    }
 }

@@ -1,60 +1,56 @@
-//package com.springboot.wine.store.controller.integration;
-//
-//
-//import com.fasterxml.jackson.databind.ObjectMapper;
-//import com.springboot.wine.store.WineStoreApplicationTests;
-//import com.springboot.wine.store.common.Utils.Constants;
-//import com.springboot.wine.store.dtos.ResponseHandler;
-//import com.springboot.wine.store.dtos.WineDTO;
-//import org.junit.Before;
-//import org.junit.Test;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.MediaType;
-//import org.springframework.test.web.servlet.MockMvc;
-//import org.springframework.test.web.servlet.MvcResult;
-//import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-//import org.springframework.web.context.WebApplicationContext;
-//
-//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-//
-//public class WineControllerTest extends WineStoreApplicationTests {
-//
-//    ObjectMapper objMapper = new ObjectMapper();
-//    private MockMvc mockMvc;
-//    @Autowired
-//    private WebApplicationContext webApplicationContext;
-//
-//    @Before
-//    public void setUp() {
-//        this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-//    }
-//
-//    @Test
-//    public void addWineTest() throws Exception {
-//        String url = "/wines/addWine";
-//        WineDTO wineDTO = new WineDTO();
-//        wineDTO.setCountry("Canada");
-//        wineDTO.setDescription("This is Canadian Wine");
-//        wineDTO.setName("Canadian Wine");
-//        wineDTO.setRating(8);
-//        wineDTO.setRegion("ABC");
-//        wineDTO.setRetailPrice(7f);
-//        wineDTO.setVarietal("ABC");
-//        wineDTO.setWineVersion(9);
-//        wineDTO.setYear(2008);
-//        String jsonRequest = objMapper.writeValueAsString(wineDTO);
-//
-//        MvcResult mvcResult = mockMvc.perform(post(url).
-//                content(jsonRequest).contentType(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk()).andReturn();
-//
-//        String resultContent = mvcResult.getResponse().getContentAsString();
-//        ResponseHandler<WineDTO> responseHandler = objMapper.readValue(resultContent, ResponseHandler.class);
-//        assert responseHandler.getData().getId() > 0;
-//
-//    }
-//
+package com.springboot.wine.store.controller.integration;
+
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.springboot.wine.store.controllers.WineController;
+import com.springboot.wine.store.dtos.WineDTO;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = WineController.class)
+@AutoConfigureMockMvc
+public class WineControllerTest {
+
+    ObjectMapper objMapper = new ObjectMapper();
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Test
+    public void addWineTest() throws Exception {
+        String url = "/wines";
+        WineDTO wineDTO = new WineDTO();
+        wineDTO.setCountry("Turkey");
+        wineDTO.setDescription("This is Turkey Wine");
+        wineDTO.setName("Turkey Wine");
+        wineDTO.setRating(9);
+        wineDTO.setRegion("ABC");
+        wineDTO.setRetailPrice(10f);
+        wineDTO.setVarietal("ABC");
+        wineDTO.setWineVersion(2);
+        wineDTO.setYear(2001);
+        String jsonRequest = objMapper.writeValueAsString(wineDTO);
+
+        MvcResult mvcResult = mockMvc.perform(post(url).
+                content(jsonRequest).contentType(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isOk()).andReturn();
+
+        String resultContent = mvcResult.getResponse().getContentAsString();
+        WineDTO responseHandler = objMapper.readValue(resultContent, WineDTO.class);
+        assert responseHandler.getId() > 0;
+
+    }
+
 //    @Test
 //    public void getWineByIdTest() throws Exception {
 //        String url = "/wines/findById/25";
@@ -110,4 +106,4 @@
 //            assert ((String) responseHandler.getMessage().getDescription()).equals(Constants.RECORD_NOT_FOUND);
 //        }
 //    }
-//}
+}

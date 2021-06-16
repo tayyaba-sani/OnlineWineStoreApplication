@@ -4,24 +4,24 @@ package com.springboot.wine.store.services.implementations;
 import com.springboot.wine.store.common.Utils.Constants;
 import com.springboot.wine.store.common.exceptions.EmailException;
 import com.springboot.wine.store.services.JavaMailService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.stereotype.Service;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
 
 @Service
 public class JavaMailServiceImpl implements JavaMailService {
+    private final JavaMailSender mailSender;
+    Logger logger = LoggerFactory.getLogger(JavaMailServiceImpl.class);
 
-    private JavaMailSender mailSender;
-
-    public JavaMailServiceImpl(JavaMailSender mailSender)
-    {
+    public JavaMailServiceImpl(JavaMailSender mailSender) {
         this.mailSender = mailSender;
     }
 
-    public void sendEmail(String email)
-    {
+    public void sendEmail(String email) {
         try {
+            logger.info("Service: JavaMailServiceImpl: sendEmail: Start");
             String from = "tayyabasani26pisces@gmail.com";
             String to = email;
 
@@ -33,10 +33,9 @@ public class JavaMailServiceImpl implements JavaMailService {
             message.setText(Constants.EMAIL_BODY);
 
             mailSender.send(message);
-        }
-        catch (Exception exception)
-        {
-            throw new EmailException(Constants.EMAIL_ERROR + exception.getMessage(),this.getClass().toString());
+            logger.info("Service: JavaMailServiceImpl: sendEmail: End");
+        } catch (Exception exception) {
+            throw new EmailException(Constants.EMAIL_ERROR + exception.getMessage(), this.getClass().toString());
         }
     }
 }
