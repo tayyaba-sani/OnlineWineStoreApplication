@@ -57,7 +57,6 @@ class WineControllerTest {
         assertThat(responseEntity).isNotNull();
 
     }
-
     @Test
     void addWineThrowBusinessException() throws Exception {
 
