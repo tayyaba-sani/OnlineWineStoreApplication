@@ -1,4 +1,4 @@
-# OnlineWineApplicationStore
+# Online Wine Store Application
 
 **Project:**
 
