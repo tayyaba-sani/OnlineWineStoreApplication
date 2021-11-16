@@ -2,9 +2,7 @@
 
 **Project:**
 
-This is a Wines Online application, which provides customers with a variety of search criteria with which they can browse, 
-select wines, add them to a shopping cart, and process their order. Customers submit their order. Once an order is submitted, the e-mail notification is send to the 
-customer on the status of the order.
+This is an online wine store application, which provides customers with variety of search criteria to browse and select wines, add them to a shopping cart, and process their orders. Once an order is submitted by a customer, the e-mail notification is send to the customer on the status of their order.  
 
 **Technologies used:**  
 SpringBoot 2.4.5  
